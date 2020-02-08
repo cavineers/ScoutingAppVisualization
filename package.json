@@ -1,0 +1,27 @@
+{
+    "name": "ScoutingAppVisualization",
+    "version": "1.0.0",
+    "description": "Scouting App Visualization Information",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "electron ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cavineers/ScoutingAppVisualization.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/cavineers/ScoutingAppVisualization/issues"
+    },
+    "homepage": "https://github.com/cavineers/ScoutingAppVisualization#readme",
+    "dependencies": {
+        "electron": "^8.0.0",
+        "express": "^4.17.1",
+        "mongodb": "^3.5.2",
+        "path": "^0.12.7"
+    }
+}
