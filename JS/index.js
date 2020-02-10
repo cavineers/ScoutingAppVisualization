@@ -18,6 +18,7 @@ function getForData() {
             teamNumbers.push((docs.teamNum).substring(3, 7));
         })
         setTimeout(function() {
+            let genData = [];
             for (let i = 0; i < teamNumbers.length; i++) {
                 if (data == teamNumbers[i]) {
                     let query = {
@@ -26,21 +27,32 @@ function getForData() {
                     let visability = []
                     dbo.collection("scouting-app").find(query).forEach(function(item) {
                         visability.push(item.metrics);
+                        genData.push(item);
                     });
-                    console.log(visability)
                     setTimeout(function() {
                         let delCells1 = 0;
+                        let delCells2 = 0;
+                        let delCells3 = 0;
                         let pikCells = 0;
                         let climb = 0;
-                        let visX = 0;
-                        console.log(visability.length)
+                        let newData = 0;
                         for (let x = 0; x < visability.length; x++) {
                             pikCells = pikCells + visability[x].numberOfPickups;
                             delCells1 = delCells1 + visability[x].deliveriesLvl1;
+                            delCells2 = delCells1 + visability[x].deliveriesLvl2;
+                            delCells3 = delCells1 + visability[x].deliveriesLvl3;
+                            newData = newData + genData[x].startingCells;
+                            if (visability[x].climb.match(/YES/g)) {
+                                climb = climb + visability[x].climb.match(/YES/g).length || [];
+                            }
                         }
                         pikCells = pikCells / visability.length
-                        delCells1 = delCells1 / visability.length;
-                        document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1}`;
+                        delCells1 = delCells1 / visability.length + newData;
+                        delCells2 = delCells2 / visability.length + newData;
+                        delCells3 = delCells3 / visability.length + newData;
+                        newData = newData / visability.length;
+                        climb = (climb / visability.length) * 100;
+                        document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%`;
                     }, 800);
                 }
             }
