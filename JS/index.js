@@ -15,7 +15,11 @@ function getForData() {
         let teamNumbers = [];
         var dbo = db.db("Scouting");
         let teamData = dbo.collection("scouting-app").find().forEach(function(docs) {
-            teamNumbers.push((docs.teamNum).substring(3, 7));
+            if (docs.teamNum.length == 7) {
+                teamNumbers.push((docs.teamNum).substring(3, 7));
+            } else {
+                teamNumbers.push((docs.teamNum).substring(3, 6));
+            }
         })
         setTimeout(function() {
             let genData = [];
@@ -35,7 +39,7 @@ function getForData() {
                         let delCells3 = 0;
                         let pikCells = 0;
                         let climb = 0;
-                        let newData = 0;
+                        let newData = 0; //newData = number of starting cells
                         for (let x = 0; x < visability.length; x++) {
                             pikCells = pikCells + visability[x].numberOfPickups;
                             delCells1 = delCells1 + visability[x].deliveriesLvl1;
@@ -45,6 +49,7 @@ function getForData() {
                             if (visability[x].climb.match(/YES/g)) {
                                 climb = climb + visability[x].climb.match(/YES/g).length || [];
                             }
+                            console.log(newData)
                         }
                         pikCells = pikCells / visability.length
                         delCells1 = delCells1 / visability.length + newData;
