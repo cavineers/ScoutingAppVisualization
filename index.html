@@ -21,6 +21,7 @@
         <div style="text-align: center;">
             <input class="teamNum" placeholder="Team Number" type="text" autofocus id="item">
             <input class="forBtn" id="inputBtn" value="Gather Formatted Data" type="button" onclick="getForData()">
+            <input class="forBtn" id="commentBtn" value="View Team Comments" type="button" onclick="viewComments()">
         </div>
         <br>
         <div class="sortedDocs" id="metricData"><img src="loadingGif2.gif" style="display: none;" width="100px" height="auto" id="loading"></div><br>
@@ -38,6 +39,7 @@
             </div>
             <div class="clickableElement">
                 <div class="rank" onclick="allianceCompare()" id="allianceCompare">Alliance Compare</div>
+                <div class="rank" onclick="viewAllComments()" id="CommentViews">Comment Viewer</div>
             </div>
             <br>
             <br>
