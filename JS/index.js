@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
 function getForData() {
-    document.getElementById('sortedDocs').innerHTML = "Loading Results...";
+    document.getElementById('sortedDocs').innerHTML = 'Loading Results...';
+    document.getElementById('loading').style.display = "block";
     let data = document.getElementById('item').value;
     MongoClient.connect(mongoUrl, function(err, db) {
         if (err) throw err;
@@ -58,7 +59,8 @@ function getForData() {
                         newData = newData / visability.length;
                         climb = (climb / visability.length) * 100;
                         document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%`;
-                    }, 800);
+                        document.getElementById('loading').style.display = "none";
+                    }, 1000);
                 }
             }
         }, 800)
