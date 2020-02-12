@@ -48,6 +48,7 @@ function getForData() {
                         let pikCells = 0;
                         let climb = 0;
                         let pins = 0;
+                        let push = 0;
                         let newData = 0; //newData = number of starting cells
                         for (let x = 0; x < visability.length; x++) {
                             pikCells = pikCells + visability[x].numberOfPickups;
@@ -55,6 +56,7 @@ function getForData() {
                             delCells2 = delCells1 + visability[x].deliveriesLvl2;
                             delCells3 = delCells1 + visability[x].deliveriesLvl3;
                             pins = pins + visability[x].numPins;
+                            push = push + visability[x].numPush;
                             newData = newData + genData[x].startingCells;
                             if (visability[x].climb.match(/YES/g)) {
                                 climb = climb + visability[x].climb.match(/YES/g).length || [];
@@ -66,13 +68,13 @@ function getForData() {
                         delCells3 = delCells3 / visability.length + newData;
                         newData = newData / visability.length;
                         pins = pins / visability.length;
+                        push = push / visability.length;
                         climb = (climb / visability.length) * 100;
-                        document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}% <br><br> Defense: <br> # of Pins ${pins}`;
+                        document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push}`;
                         document.getElementById('loading').style.display = "none";
                     }, 1000);
                 } else {
                     document.getElementById('sortedDocs').innerHTML = 'Finalizing...';
-                    document.getElementById('loading').style.display = 'none';
                 }
             }
         }, 1000)
