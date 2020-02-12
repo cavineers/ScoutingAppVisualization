@@ -7,6 +7,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
+//MongoDB Collection Name
+const collectionName = "scouting-app";
+
 document.getElementById("item").addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
@@ -22,7 +25,7 @@ function getForData() {
         if (err) throw err;
         let teamNumbers = [];
         var dbo = db.db("Scouting");
-        let teamData = dbo.collection("scouting-app").find().forEach(function(docs) {
+        let teamData = dbo.collection(collectionName).find().forEach(function(docs) {
             if (docs.teamNum.length == 7) {
                 teamNumbers.push((docs.teamNum).substring(3, 7));
             } else {
@@ -37,7 +40,7 @@ function getForData() {
                         teamNum: `frc${teamNumbers[i]}`
                     };
                     let visability = []
-                    dbo.collection("scouting-app").find(query).forEach(function(item) {
+                    dbo.collection(collectionName).find(query).forEach(function(item) {
                         visability.push(item.metrics);
                         genData.push(item);
                     });
@@ -93,7 +96,7 @@ function viewComments() {
         if (err) throw err;
         let teamNumbers = [];
         var dbo = db.db("Scouting");
-        let teamData = dbo.collection("scouting-app").find().forEach(function(docs) {
+        let teamData = dbo.collection(collectionName).find().forEach(function(docs) {
             if (docs.teamNum.length == 7) {
                 teamNumbers.push((docs.teamNum).substring(3, 7));
             } else {
@@ -107,7 +110,7 @@ function viewComments() {
                         teamNum: `frc${teamNumbers[i]}`
                     };
                     let visability = []
-                    dbo.collection("scouting-app").find(query).forEach(function(item) {
+                    dbo.collection(collectionName).find(query).forEach(function(item) {
                         visability.push(item.SummaryData);
                     });
                     setTimeout(function() {
@@ -135,7 +138,7 @@ function viewAllComments() {
         if (err) throw err;
         let teamNumbers = [];
         var dbo = db.db("Scouting");
-        let teamData = dbo.collection("scouting-app").find().forEach(function(docs) {
+        let teamData = dbo.collection(collectionName).find().forEach(function(docs) {
             if (docs.teamNum.length == 7) {
                 teamNumbers.push((docs.teamNum).substring(3, 7));
             } else {
@@ -145,7 +148,7 @@ function viewAllComments() {
         setTimeout(function() {
             for (let i = 0; i < teamNumbers.length; i++) {
                 let visability = []
-                dbo.collection("scouting-app").find().forEach(function(item) {
+                dbo.collection(collectionName).find().forEach(function(item) {
                     visability.push(item.SummaryData);
                 });
                 setTimeout(function() {
