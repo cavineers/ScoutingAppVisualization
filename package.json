@@ -1,5 +1,5 @@
 {
-    "name": "ScoutingAppVisualization",
+    "name": "scouting-app-visualization",
     "version": "1.0.0",
     "description": "Scouting App Visualization Information",
     "main": "app.js",
@@ -12,8 +12,8 @@
         "url": "git+https://github.com/cavineers/ScoutingAppVisualization.git"
     },
     "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "author": "Ryan Bode",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/cavineers/ScoutingAppVisualization/issues"
     },

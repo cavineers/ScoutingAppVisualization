@@ -20,7 +20,7 @@ app.on('ready', function() {
         }
     });
     //Loads HTML
-    mainWindow.loadURL(path.join(__dirname, 'index.html'))
+    mainWindow.loadURL(path.join(__dirname, '/dist/index.html'))
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
     Menu.setApplicationMenu(mainMenu);
