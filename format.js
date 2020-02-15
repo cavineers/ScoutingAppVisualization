@@ -5,6 +5,13 @@ const dbFolder = './db/';
 const dbFolderFiles = '/db/';
 const dbfiles = [];
 
+
+
+/*
+OPEN COMMAND PROMPT AND TYPE (AFTER CD INTO db folder) copy *.txt processed.json
+THIS COMMAND CONCATS Files and prints json file
+*/
+
 fs.readdir(dbFolder, (err, files) => {
         if (err) throw (err)
         files.forEach(file => {
@@ -20,7 +27,7 @@ fs.readdir(dbFolder, (err, files) => {
     })
     //Copies files in db folder to my E:\ drive
 var sourceDir = __dirname + '/db';
-var destDir = "E:\data(server)";
+var destDir = "D:\data(server)";
 
 /* if folder doesn't exists create it
 if (!fs.existsSync(destDir)) {

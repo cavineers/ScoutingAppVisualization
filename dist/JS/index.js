@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
 //MongoDB Collection Name
-const collectionName = "scouting-app";
+const collectionName = "Week_0";
 
 document.getElementById("item").addEventListener("keyup", function(event) {
     event.preventDefault();
@@ -59,8 +59,8 @@ function getForData() {
                         for (let x = 0; x < visability.length; x++) {
                             pikCells = pikCells + visability[x].numberOfPickups;
                             delCells1 = delCells1 + visability[x].deliveriesLvl1;
-                            delCells2 = delCells1 + visability[x].deliveriesLvl2;
-                            delCells3 = delCells1 + visability[x].deliveriesLvl3;
+                            delCells2 = delCells2 + visability[x].deliveriesLvl2;
+                            delCells3 = delCells3 + visability[x].deliveriesLvl3;
                             pins = pins + visability[x].numPins;
                             push = push + visability[x].numPush;
                             disabled = disabled + visability[x].numDisrupted;
@@ -253,8 +253,8 @@ function allianceCompare() {
                         for (let x = 0; x < visability.length; x++) {
                             pikCells = pikCells + visability[x].numberOfPickups;
                             delCells1 = delCells1 + visability[x].deliveriesLvl1;
-                            delCells2 = delCells1 + visability[x].deliveriesLvl2;
-                            delCells3 = delCells1 + visability[x].deliveriesLvl3;
+                            delCells2 = delCells2 + visability[x].deliveriesLvl2;
+                            delCells3 = delCells3 + visability[x].deliveriesLvl3;
                             pins = pins + visability[x].numPins;
                             push = push + visability[x].numPush;
                             disabled = disabled + visability[x].numDisrupted;
