@@ -184,7 +184,7 @@ function getTeamNums() {
         if (err) throw err;
         let teamNumbers = [];
         var dbo = db.db("Scouting");
-        let teamData = dbo.collection("scouting-app").find().forEach(function(docs) {
+        let teamData = dbo.collection(collectionName).find().forEach(function(docs) {
             if (docs.teamNum.length == 7) {
                 teamNumbers.push((docs.teamNum).substring(3, 7));
             } else {

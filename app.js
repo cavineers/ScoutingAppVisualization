@@ -64,8 +64,8 @@ MongoClient.connect(mongoUrl, function(err, db) {
     });
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.webContents.send('ping', metrics)
-    })
+    });
     mainWindow.webContents.on('did-finish-load', () => {
         mainWindow.webContents.send('loadFiles', visability)
-    })
+    });
 });
