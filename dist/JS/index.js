@@ -17,6 +17,16 @@ document.getElementById("item").addEventListener("keyup", function(event) {
     }
 });
 
+let pikCellsParse = 0;
+let delCells1Parse = 0;
+let delCells2Parse = 0;
+let delCells3Parse = 0;
+let pinsParse = 0;
+let pushParse = 0;
+let disabledParse = 0;
+let length = 0;
+let climbParse = 0;
+
 function getForData() {
     document.getElementById('sortedDocs').innerHTML = 'Loading Results...';
     document.getElementById('loading').style.display = "block";
@@ -44,6 +54,7 @@ function getForData() {
                         visability.push(item.metrics);
                         genData.push(item);
                     });
+                    baseLineData2();
                     setTimeout(function() {
                         let delCells1 = 0;
                         let delCells2 = 0;
@@ -86,7 +97,58 @@ function getForData() {
                         climb = (climb / visability.length) * 100;
                         stage2 = (stage2 / visability.length) * 100;
                         stage3 = (stage3 / visability.length) * 100;
-                        document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}`;
+                        let countTeam1 = 0;
+                        let countTeam2 = 0;
+                        if (pikCellsParse > pikCells && pikCellsParse != pikCells) {
+                            countTeam1++;
+                        } else if (pikCellsParse != pikCells) {
+                            countTeam2++;
+                        }
+                        if (delCells1Parse > delCells1 && delCells1Parse != delCells1) {
+                            countTeam1++;
+                        } else if (delCells1Parse != delCells1) {
+                            countTeam2++;
+                        }
+                        if (delCells2Parse > delCells2 && delCells2Parse != delCells2) {
+                            countTeam1++;
+                        } else if (delCells2Parse != delCells2) {
+                            countTeam2++;
+                        }
+                        if (delCells3Parse > delCells3 && delCells3Parse != delCells3) {
+                            countTeam1++;
+                        } else if (delCells3Parse != delCells3) {
+                            countTeam2++;
+                        }
+                        if (pinsParse > pins && pinsParse != pins) {
+                            countTeam1++;
+                        } else if (pinsParse != pins) {
+                            countTeam2++;
+                        }
+                        if (pushParse > push && pushParse != push) {
+                            countTeam1++;
+                        } else if (pushParse != push) {
+                            countTeam2++;
+                        }
+                        if (disabledParse > disabled && disabledParse != disabled) {
+                            countTeam1++;
+                        } else if (disabledParse != disabled) {
+                            countTeam2++;
+                        }
+                        if (climbParse > climb && climbParse != climb) {
+                            countTeam1++;
+                        } else if (climbParse != climb) {
+                            countTeam2++;
+                        }
+                        //@TODO ADD CLIMB, STAGE2, STAGE3
+                        console.log(countTeam1 + " " + countTeam2);
+                        let discountedScore = 0;
+                        discountedScore = 8 - (countTeam1 + countTeam2);
+                        if (countTeam1 > countTeam2) {
+                            document.getElementById('sortedDocs').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${8 - discountedScore} compared to the base line data`;
+                        } else {
+                            document.getElementById('sortedDocs').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${8 - discountedScore} compared to the base line data`;
+                        }
+                        //document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}`;
                         document.getElementById('loading').style.display = "none";
                     }, 1000);
                 } else {
@@ -95,6 +157,64 @@ function getForData() {
             }
         }, 1000)
     });
+}
+
+function baseLineData2() {
+    MongoClient.connect(mongoUrl, function(err, db) {
+        if (err) throw err;
+        let pikCells = [];
+        let delCells1 = [];
+        let delCells2 = [];
+        let delCells3 = [];
+        let climbParse = 0;
+        let pins = [];
+        let push = [];
+        let disabled = [];
+        let stage2 = 0;
+        let stage3 = 0;
+        var dbo = db.db("Scouting");
+        let teamData = dbo.collection(collectionName).find().forEach(function(docs) {
+            pikCells.push(docs.metrics.numberOfPickups);
+            delCells1.push(docs.metrics.deliveriesLvl1);
+            delCells2.push(docs.metrics.deliveriesLvl2);
+            delCells3.push(docs.metrics.deliveriesLvl3);
+            if (docs.metrics.climb.match(/YES/g)) {
+                climbParse = climbParse + docs.metrics.climb.match(/YES/g).length || [];
+            }
+            if (docs.metrics.stage2_control.match(/Spun_3-5_times/g)) {
+                stage2 = stage2 + docs.metrics.stage2_control.match(/Spun_3-5_times/g).length || [];
+            }
+            if (docs.metrics.stage3_control.match(/LandedOnColor/g)) {
+                stage3 = stage3 + docs.metrics.stage3_control.match(/LandedOnColor/g).length || [];
+            }
+            pins.push(docs.metrics.numPins);
+            push.push(docs.metrics.numPush);
+            disabled.push(docs.metrics.numDisrupted);
+        });
+        setTimeout(function() {
+            for (let i = 0; i < pikCells.length; i++) {
+                pikCellsParse = pikCellsParse + pikCells[i];
+                delCells1Parse = delCells1Parse + delCells1[i];
+                delCells2Parse = delCells2Parse + delCells2[i];
+                delCells3Parse = delCells3Parse + delCells3[i];
+                pinsParse = pinsParse + pins[i];
+                pushParse = pushParse + push[i];
+                disabledParse = disabledParse + disabled[i];
+                length = i + 1;
+            }
+            pikCellsParse = pikCellsParse / length;
+            delCells1Parse = delCells1Parse / length;
+            delCells2Parse = delCells2Parse / length;
+            delCells3Parse = delCells3Parse / length;
+            pinsParse = pinsParse / length;
+            pushParse = pushParse / length;
+            disabledParse = disabledParse / length;
+            climbParse = (climbParse / length) * 100;
+            stage2 = (stage2 / length) * 100;
+            stage3 = (stage3 / length) * 100;
+            //, delCells1Parse, delCells2Parse, delCells3Parse, climb, pinsParse, pushParse, disabledParse, stage2, stage3;
+        }, 900);
+    })
 }
 
 function viewComments() {
