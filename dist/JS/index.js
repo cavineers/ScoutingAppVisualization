@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
 //MongoDB Collection Name
-const collectionName = "scouting-app";
+const collectionName = "Week_0";
 
 document.getElementById("item").addEventListener("keyup", function(event) {
     event.preventDefault();
@@ -24,8 +24,9 @@ let delCells3Parse = 0;
 let pinsParse = 0;
 let pushParse = 0;
 let disabledParse = 0;
-let length = 0;
 let climbParse = 0;
+let stage2Parse = 0;
+let stage3Parse = 0;
 
 function getForData() {
     document.getElementById('sortedDocs').innerHTML = 'Loading Results...';
@@ -139,20 +140,28 @@ function getForData() {
                         } else if (climbParse != climb) {
                             countTeam2++;
                         }
-                        //@TODO ADD CLIMB, STAGE2, STAGE3
-                        console.log(countTeam1 + " " + countTeam2);
+                        if (stage2Parse > stage2 && stage2Parse != stage2) {
+                            countTeam1++;
+                        } else if (stage2Parse != stage2) {
+                            countTeam2++;
+                        }
+                        if (stage3Parse > stage3 && stage3Parse != stage3) {
+                            countTeam1++;
+                        } else if (stage3Parse != stage3) {
+                            countTeam2++;
+                        }
                         let discountedScore = 0;
-                        discountedScore = 8 - (countTeam1 + countTeam2);
+                        discountedScore = 10 - (countTeam1 + countTeam2);
                         if (countTeam1 > countTeam2) {
-                            document.getElementById('sortedDocs').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${8 - discountedScore} compared to the base line data`;
+                            document.getElementById('sortedDocs').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${10 - discountedScore} compared to the base line data`;
                         } else {
-                            document.getElementById('sortedDocs').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${8 - discountedScore} compared to the base line data`;
+                            document.getElementById('sortedDocs').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${10 - discountedScore} compared to the base line data`;
                         }
                         //document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}`;
                         document.getElementById('loading').style.display = "none";
-                    }, 1000);
+                    }, 1500);
                 } else {
-                    document.getElementById('sortedDocs').innerHTML = 'Running Error Scan...';
+                    document.getElementById('sortedDocs').innerHTML = 'Running Scan...';
                 }
             }
         }, 1000)
@@ -166,12 +175,9 @@ function baseLineData2() {
         let delCells1 = [];
         let delCells2 = [];
         let delCells3 = [];
-        let climbParse = 0;
         let pins = [];
         let push = [];
         let disabled = [];
-        let stage2 = 0;
-        let stage3 = 0;
         var dbo = db.db("Scouting");
         let teamData = dbo.collection(collectionName).find().forEach(function(docs) {
             pikCells.push(docs.metrics.numberOfPickups);
@@ -182,16 +188,17 @@ function baseLineData2() {
                 climbParse = climbParse + docs.metrics.climb.match(/YES/g).length || [];
             }
             if (docs.metrics.stage2_control.match(/Spun_3-5_times/g)) {
-                stage2 = stage2 + docs.metrics.stage2_control.match(/Spun_3-5_times/g).length || [];
+                stage2Parse = stage2Parse + docs.metrics.stage2_control.match(/Spun_3-5_times/g).length || [];
             }
             if (docs.metrics.stage3_control.match(/LandedOnColor/g)) {
-                stage3 = stage3 + docs.metrics.stage3_control.match(/LandedOnColor/g).length || [];
+                stage3Parse = stage3Parse + docs.metrics.stage3_control.match(/LandedOnColor/g).length || [];
             }
             pins.push(docs.metrics.numPins);
             push.push(docs.metrics.numPush);
             disabled.push(docs.metrics.numDisrupted);
         });
         setTimeout(function() {
+            let length = 0;
             for (let i = 0; i < pikCells.length; i++) {
                 pikCellsParse = pikCellsParse + pikCells[i];
                 delCells1Parse = delCells1Parse + delCells1[i];
@@ -210,8 +217,8 @@ function baseLineData2() {
             pushParse = pushParse / length;
             disabledParse = disabledParse / length;
             climbParse = (climbParse / length) * 100;
-            stage2 = (stage2 / length) * 100;
-            stage3 = (stage3 / length) * 100;
+            stage2Parse = (stage2Parse / length) * 100;
+            stage3Parse = (stage3Parse / length) * 100;
             //, delCells1Parse, delCells2Parse, delCells3Parse, climb, pinsParse, pushParse, disabledParse, stage2, stage3;
         }, 900);
     })
@@ -287,11 +294,17 @@ function viewAllComments() {
                     let comments = '';
                     let safetyComments = '';
                     for (let x = 0; x < visability.length; x++) {
-                        defsenseComments = defsenseComments + '<br>' + visability[x].DefenseComments;
-                        comments = comments + '<br>' + visability[x].Comments;
-                        safetyComments = safetyComments + '<br>' + visability[x].SafetyComments;
+                        if (visability[x].DefenseComments == "") {} else {
+                            defsenseComments = defsenseComments + '<br>' + teamNumbers[x] + ": " + visability[x].DefenseComments;
+                        }
+                        if (visability[x].Comments == "") {} else {
+                            comments = comments + '<br>' + teamNumbers[x] + ": " + visability[x].Comments;
+                        }
+                        if (visability[x].SafetyComments == "") {} else {
+                            safetyComments = safetyComments + '<br>' + teamNumbers[x] + ": " + visability[x].SafetyComments;
+                        }
                     }
-                    document.getElementById('rankingData').innerHTML = "<b>Defense Comments:</b> " + defsenseComments + "<br><b>Comments: </b>" + comments + '<br><b>Safety Comments: </b>' + safetyComments;
+                    document.getElementById('rankingData').innerHTML = "<b>Defense Comments:</b> " + defsenseComments + "<br><br><b>Comments: </b>" + comments + '<br><br><b>Safety Comments: </b>' + safetyComments;
                 }, 1000);
             }
         }, 1000);
@@ -532,11 +545,11 @@ function allianceCompare() {
                         if (countTeam1 > countTeam2) {
                             document.getElementById('rankingData').innerHTML = `<span style="color: green">Average Stats for Team ${dataPos[0]}:</span><br><br>Metrics:<br> # of starting cells: ${dataPos[1]} <br> # of Pickups: ${dataPos[2]} <br> # of Delivers to Level 1: ${dataPos[3]} <br> # of Delivers to Level 2: ${dataPos[4]} <br> # of Delivers to Level 3: ${dataPos[5]} <br> avg percent of climbs: ${dataPos[6]}%<br> avg percent of stage 2 (3-5): ${dataPos[10]}%<br> avg percent of landing on correct color: ${dataPos[11]}% <br><br> Defense: <br> # of Pins ${dataPos[7]} <br> # of Pushes ${dataPos[8]} <br> # of Disables ${dataPos[9]}<br><br>This team received a score of ${countTeam1} out of ${10 - discountedScore}`;
                             document.getElementById('compare2').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${10 - discountedScore}`;
-                            document.getElementById('compare3').innerHTML = `Scoring:<br><br>Between these two teams ${discountedScore} was removed when scoring due to duplicate values<br><br>Team ${dataPos[0]} scored a ${countTeam1} VS Team ${teamNumbers[i]} who scored a ${countTeam2} out of ${10 - discountedScore}`;
+                            document.getElementById('compare3').innerHTML = `Scoring:<br><br>Between these two teams ${discountedScore} points were removed when scoring due to duplicate values<br><br>Team ${dataPos[0]} scored a ${countTeam1} VS Team ${teamNumbers[i]} who scored a ${countTeam2} out of ${10 - discountedScore}`;
                         } else {
                             document.getElementById('rankingData').innerHTML = `<span style="color: red">Average Stats for Team ${dataPos[0]}:</span><br><br>Metrics:<br> # of starting cells: ${dataPos[1]} <br> # of Pickups: ${dataPos[2]} <br> # of Delivers to Level 1: ${dataPos[3]} <br> # of Delivers to Level 2: ${dataPos[4]} <br> # of Delivers to Level 3: ${dataPos[5]} <br> avg percent of climbs: ${dataPos[6]}%<br> avg percent of stage 2 (3-5): ${dataPos[10]}%<br> avg percent of landing on correct color: ${dataPos[11]}% <br><br> Defense: <br> # of Pins ${dataPos[7]} <br> # of Pushes ${dataPos[8]} <br> # of Disables ${dataPos[9]}<br><br>This team received a score of ${countTeam1} out of ${10 - discountedScore}`;
                             document.getElementById('compare2').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}<br><br>This team received a score of ${countTeam2} out of ${10 - discountedScore}`;
-                            document.getElementById('compare3').innerHTML = `Scoring:<br><br>Between these two teams ${discountedScore} was removed when scoring due to duplicate values<br><br>Team ${dataPos[0]} scored a ${countTeam1} VS Team ${teamNumbers[i]} who scored a ${countTeam2} out of ${10 - discountedScore}`;
+                            document.getElementById('compare3').innerHTML = `Scoring:<br><br>Between these two teams ${discountedScore} points were removed when scoring due to duplicate values<br><br>Team ${dataPos[0]} scored a ${countTeam1} VS Team ${teamNumbers[i]} who scored a ${countTeam2} out of ${10 - discountedScore}`;
                         }
                     }, 1000);
                 }

@@ -93,6 +93,8 @@ body {
     height: 50rem;
     border-radius: 4px;
     position: relative;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .tabList input {
@@ -227,4 +229,9 @@ body {
     width: 50%;
     height: 65%;
     grid-column: 2;
+}
+
+.scrollable {
+    height: 100%;
+    width: auto;
 }

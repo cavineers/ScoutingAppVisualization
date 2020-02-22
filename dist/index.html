@@ -30,21 +30,24 @@
         <p class="para2">Team Rankings Console</p>
         <br>
         <div class="tabList">
-            <input class="teamNum" placeholder="First Team Number" type="text" id="team1" />
-            <input class="teamNum" placeholder="Second Team Number" type="text" id="team2" />
-            <div class="readyBar" style="display: flex;">
-                <div class="redBar"></div>
-                <div class="yellowBar"></div>
-                <div class="greenBar"></div>
-            </div>
-            <div class="clickableElement">
-                <div class="rank" onclick="allianceCompare()" id="allianceCompare">Alliance Compare</div>
-                <div class="rank" onclick="viewAllComments()" id="CommentViews">Comment Viewer</div>
-                <div class="rank" onclick="baseLine()" id="CommentViews">View Base Line (Average)</div>
+            <div class="headerBar">
+                <input class="teamNum" placeholder="First Team Number" type="text" id="team1" />
+                <input class="teamNum" placeholder="Second Team Number" type="text" id="team2" />
+                <div class="readyBar" style="display: flex;">
+                    <div class="redBar"></div>
+                    <div class="yellowBar"></div>
+                    <div class="greenBar"></div>
+                </div>
+                <div class="clickableElement">
+                    <div class="rank" onclick="allianceCompare()" id="allianceCompare">Alliance Compare</div>
+                    <div class="rank" onclick="viewAllComments()" id="CommentViews">Comment Viewer</div>
+                    <div class="rank" onclick="baseLine()" id="CommentViews">View Base Line (Average)</div>
+                    <div class="rank" onclick="getTeamNums()">See available teams</div>
+                </div>
             </div>
             <br>
             <br>
-            <div>
+            <div class="scrollable">
                 <table cellspacing="50">
                     <tr>
                         <td>
@@ -59,13 +62,12 @@
                         </td>
                     </tr>
                 </table>
-                <div class="ranks" onclick="getTeamNums()">See available teams</div>
             </div>
         </div>
     </div>
     <br>
     <div class="footer">
-        <p>Designed by FRC team 4541 Scouting <br> All rights reserved &#169; <br> This application is powered by node.js and mongodb</p>
+        <p>Designed by FRC team 4541 Scouting <br> All rights reserved &#169; <br> This application is powered by node.js, mongodb, and electron.js</p>
         <input class="docBtn" type="button" onclick="window.open('commands.pdf')" value="View Documentation">
     </div>
     <script src="JS/index.js"></script>
