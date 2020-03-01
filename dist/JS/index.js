@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
 //MongoDB Collection Name
-const collectionName = "Week_0";
+const collectionName = "scouting-app";
 
 document.getElementById("item").addEventListener("keyup", function(event) {
     event.preventDefault();
@@ -45,6 +45,7 @@ function getForData() {
         })
         setTimeout(function() {
             let genData = [];
+            baseLineData2();
             for (let i = 0; i < teamNumbers.length; i++) {
                 if (data == teamNumbers[i]) {
                     let query = {
@@ -55,7 +56,6 @@ function getForData() {
                         visability.push(item.metrics);
                         genData.push(item);
                     });
-                    baseLineData2();
                     setTimeout(function() {
                         let delCells1 = 0;
                         let delCells2 = 0;
@@ -88,9 +88,9 @@ function getForData() {
                             }
                         }
                         pikCells = pikCells / visability.length
-                        delCells1 = delCells1 / visability.length + newData;
-                        delCells2 = delCells2 / visability.length + newData;
-                        delCells3 = delCells3 / visability.length + newData;
+                        delCells1 = delCells1 / visability.length;
+                        delCells2 = delCells2 / visability.length;
+                        delCells3 = delCells3 / visability.length;
                         newData = newData / visability.length;
                         pins = pins / visability.length;
                         push = push / visability.length;
@@ -168,7 +168,170 @@ function getForData() {
     });
 }
 
+function getRanks() {
+    document.getElementById('rankingData').innerHTML = 'Loading Results...';
+    document.getElementById('compare2').innerHTML = "";
+    document.getElementById('compare3').innerHTML = "";
+    MongoClient.connect(mongoUrl, function(err, db) {
+        if (err) throw err;
+        let teamNumbers = [];
+        var dbo = db.db("Scouting");
+        let teamData = dbo.collection(collectionName).find().forEach(function(docs) {
+            if (docs.teamNum.length == 7) {
+                teamNumbers.push((docs.teamNum).substring(3, 7));
+            } else {
+                teamNumbers.push((docs.teamNum).substring(3, 6));
+            }
+        })
+        setTimeout(function() {
+            baseLineData2();
+            let score = [];
+            let genData = [];
+            let teamNums = [];
+            let discountedScore = 0;
+            let unique = teamNumbers.filter(function(elem, index, self) {
+                return index === self.indexOf(elem);
+            });
+            for (var i = 0; i < unique.length; i++) {
+                teamNums.push(unique[i]);
+            }
+            for (let i = 0; i < teamNums.length; i++) {
+                let query = {
+                    teamNum: `frc${teamNums[i]}`
+                };
+                let visability = []
+                dbo.collection(collectionName).find(query).forEach(function(item) {
+                    visability.push(item.metrics);
+                    genData.push(item);
+                });
+                setTimeout(function() {
+                    let delCells1 = 0;
+                    let delCells2 = 0;
+                    let delCells3 = 0;
+                    let pikCells = 0;
+                    let climb = 0;
+                    let pins = 0;
+                    let push = 0;
+                    let disabled = 0;
+                    let stage2 = 0;
+                    let stage3 = 0;
+                    let newData = 0; //newData = number of starting cells
+                    for (let x = 0; x < visability.length; x++) {
+                        pikCells = pikCells + visability[x].numberOfPickups;
+                        delCells1 = delCells1 + visability[x].deliveriesLvl1;
+                        delCells2 = delCells2 + visability[x].deliveriesLvl2;
+                        delCells3 = delCells3 + visability[x].deliveriesLvl3;
+                        pins = pins + visability[x].numPins;
+                        push = push + visability[x].numPush;
+                        disabled = disabled + visability[x].numDisrupted;
+                        newData = newData + genData[x].startingCells;
+                        if (visability[x].climb.match(/YES/g)) {
+                            climb = climb + visability[x].climb.match(/YES/g).length || [];
+                        }
+                        if (visability[x].stage2_control.match(/Spun_3-5_times/g)) {
+                            stage2 = stage2 + visability[x].stage2_control.match(/Spun_3-5_times/g).length || [];
+                        }
+                        if (visability[x].stage3_control.match(/LandedOnColor/g)) {
+                            stage3 = stage3 + visability[x].stage3_control.match(/LandedOnColor/g).length || [];
+                        }
+                    }
+                    pikCells = pikCells / visability.length
+                    delCells1 = delCells1 / visability.length;
+                    delCells2 = delCells2 / visability.length;
+                    delCells3 = delCells3 / visability.length;
+                    newData = newData / visability.length;
+                    pins = pins / visability.length;
+                    push = push / visability.length;
+                    disabled = disabled / visability.length;
+                    climb = (climb / visability.length) * 100;
+                    stage2 = (stage2 / visability.length) * 100;
+                    stage3 = (stage3 / visability.length) * 100;
+                    let countTeam1 = 0;
+                    let countTeam2 = 0;
+                    if (pikCellsParse > pikCells && pikCellsParse != pikCells) {
+                        countTeam1++;
+                    } else if (pikCellsParse != pikCells) {
+                        countTeam2++;
+                    }
+                    if (delCells1Parse > delCells1 && delCells1Parse != delCells1) {
+                        countTeam1++;
+                    } else if (delCells1Parse != delCells1) {
+                        countTeam2++;
+                    }
+                    if (delCells2Parse > delCells2 && delCells2Parse != delCells2) {
+                        countTeam1++;
+                    } else if (delCells2Parse != delCells2) {
+                        countTeam2++;
+                    }
+                    if (delCells3Parse > delCells3 && delCells3Parse != delCells3) {
+                        countTeam1++;
+                    } else if (delCells3Parse != delCells3) {
+                        countTeam2++;
+                    }
+                    if (pinsParse > pins && pinsParse != pins) {
+                        countTeam1++;
+                    } else if (pinsParse != pins) {
+                        countTeam2++;
+                    }
+                    if (pushParse > push && pushParse != push) {
+                        countTeam1++;
+                    } else if (pushParse != push) {
+                        countTeam2++;
+                    }
+                    if (disabledParse > disabled && disabledParse != disabled) {
+                        countTeam1++;
+                    } else if (disabledParse != disabled) {
+                        countTeam2++;
+                    }
+                    if (climbParse > climb && climbParse != climb) {
+                        countTeam1++;
+                    } else if (climbParse != climb) {
+                        countTeam2++;
+                    }
+                    if (stage2Parse > stage2 && stage2Parse != stage2) {
+                        countTeam1++;
+                    } else if (stage2Parse != stage2) {
+                        countTeam2++;
+                    }
+                    if (stage3Parse > stage3 && stage3Parse != stage3) {
+                        countTeam1++;
+                    } else if (stage3Parse != stage3) {
+                        countTeam2++;
+                    }
+                    discountedScore = 10 - (countTeam1 + countTeam2);
+                    score.push({ "TeamNumber": teamNums[i], "score": countTeam2 })
+                }, 1500);
+            }
+            setTimeout(() => {
+                score.sort(function(a, b) { return b.score - a.score; });
+                data = '';
+                for (let i = 0; i < score.length; i++) {
+                    if (score[i].score == 10 - discountedScore) {
+                        data += `<br><span style="color: green; font-size: 28px">${score[i].TeamNumber}: ${score[i].score}</span>`;
+                    } else if (score[i].score >= 8 - discountedScore) {
+                        data += `<br><span style="color: yellow; font-size: 28px">${score[i].TeamNumber}: ${score[i].score}</span>`;
+                    } else {
+                        data += `<br><span style="color: red; font-size: 28px">${score[i].TeamNumber}: ${score[i].score}</span>`;
+                    }
+                }
+                document.getElementById('rankingData').innerHTML = data;
+                document.getElementById('compare2').innerHTML = "**Format is team number and then score compared to the BASE line**";
+            }, 1600);
+        }, 1000);
+    })
+}
+
 function baseLineData2() {
+    pikCellsParse = 0;
+    delCells1Parse = 0;
+    delCells2Parse = 0;
+    delCells3Parse = 0;
+    pinsParse = 0;
+    pushParse = 0;
+    disabledParse = 0;
+    climbParse = 0;
+    stage2Parse = 0;
+    stage3Parse = 0;
     MongoClient.connect(mongoUrl, function(err, db) {
         if (err) throw err;
         let pikCells = [];
@@ -185,13 +348,13 @@ function baseLineData2() {
             delCells2.push(docs.metrics.deliveriesLvl2);
             delCells3.push(docs.metrics.deliveriesLvl3);
             if (docs.metrics.climb.match(/YES/g)) {
-                climbParse = climbParse + docs.metrics.climb.match(/YES/g).length || [];
+                climbParse++
             }
             if (docs.metrics.stage2_control.match(/Spun_3-5_times/g)) {
-                stage2Parse = stage2Parse + docs.metrics.stage2_control.match(/Spun_3-5_times/g).length || [];
+                stage2Parse++
             }
             if (docs.metrics.stage3_control.match(/LandedOnColor/g)) {
-                stage3Parse = stage3Parse + docs.metrics.stage3_control.match(/LandedOnColor/g).length || [];
+                stage3Parse++
             }
             pins.push(docs.metrics.numPins);
             push.push(docs.metrics.numPush);
