@@ -306,16 +306,18 @@ function getRanks() {
                 score.sort(function(a, b) { return b.score - a.score; });
                 data = '';
                 for (let i = 0; i < score.length; i++) {
-                    if (score[i].score == 10 - discountedScore) {
-                        data += `<br><span style="color: green; font-size: 28px">${score[i].TeamNumber}: ${score[i].score}</span>`;
+                    if (score[i].score >= 10 - discountedScore) {
+                        data += `<br><span style="color: green; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
                     } else if (score[i].score >= 8 - discountedScore) {
-                        data += `<br><span style="color: yellow; font-size: 28px">${score[i].TeamNumber}: ${score[i].score}</span>`;
+                        data += `<br><span style="color: yellow; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
+                    } else if (score[i].score >= 6 - discountedScore) {
+                        data += `<br><span style="color: rgb(255, 255, 151); font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
                     } else {
-                        data += `<br><span style="color: red; font-size: 28px">${score[i].TeamNumber}: ${score[i].score}</span>`;
+                        data += `<br><span style="color: red; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
                     }
                 }
                 document.getElementById('rankingData').innerHTML = data;
-                document.getElementById('compare2').innerHTML = "**Format is team number and then score compared to the BASE line**";
+                document.getElementById('compare2').innerHTML = '**Format is team number and then score compared to the BASE line**<br><br>Key:<br><span style="color: green;">Green</span> equals a perfect score<br><span style="color: yellow;">Yellow</span> equals a mostly perfect score (1 - 2 points from a perfect score)<br><span style="color: rgb(255, 255, 151);">Light Yellow</span> Average (3 - 4 points off score)<br><span style="color: red;">Red</span> Less than average (below 4 points off)';
             }, 1600);
         }, 1000);
     })
