@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
 //MongoDB Collection Name
-const collectionName = "scouting-app";
+const collectionName = "Week_1";
 
 document.getElementById("item").addEventListener("keyup", function(event) {
     event.preventDefault();
