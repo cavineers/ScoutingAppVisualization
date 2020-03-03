@@ -169,7 +169,18 @@ function getForData() {
 }
 
 function getRanks() {
-    document.getElementById('rankingData').innerHTML = 'Loading Results...';
+    const msg = parseInt(Math.random() * 5 + 1);
+    if (msg == 1) {
+        document.getElementById('rankingData').innerHTML = 'Stuck In Loop HELP...';
+    } else if (msg == 2) {
+        document.getElementById('rankingData').innerHTML = 'Good Things Are Worth Waiting For!';
+    } else if (msg == 3) {
+        document.getElementById('rankingData').innerHTML = 'Loading...Loading...Keep Waiting...Loading...';
+    } else if (msg == 4) {
+        document.getElementById('rankingData').innerHTML = 'Working hard to get your data perfect!';
+    } else {
+        document.getElementById('rankingData').innerHTML = 'Just keep waiting ... Just keep waiting';
+    }
     document.getElementById('loading2').style.display = "block";
     document.getElementById('compare2').innerHTML = "";
     document.getElementById('compare3').innerHTML = "";
@@ -479,7 +490,18 @@ function viewAllComments() {
 }
 
 function getTeamNums() {
-    document.getElementById('rankingData').innerHTML = 'Loading Results...';
+    const msg = parseInt(Math.random() * 5 + 1);
+    if (msg == 1) {
+        document.getElementById('rankingData').innerHTML = 'Stuck In Loop HELP...';
+    } else if (msg == 2) {
+        document.getElementById('rankingData').innerHTML = 'Good Things Are Worth Waiting For!';
+    } else if (msg == 3) {
+        document.getElementById('rankingData').innerHTML = 'Loading...Loading...Keep Waiting...Loading...';
+    } else if (msg == 4) {
+        document.getElementById('rankingData').innerHTML = 'Working hard to get your data perfect!';
+    } else {
+        document.getElementById('rankingData').innerHTML = 'Just keep waiting ... Just keep waiting';
+    }
     document.getElementById('compare2').innerHTML = "";
     document.getElementById('compare3').innerHTML = "";
     MongoClient.connect(mongoUrl, function(err, db) {
@@ -713,6 +735,10 @@ function allianceCompare() {
                             document.getElementById('rankingData').innerHTML = `<span style="color: green">Average Stats for Team ${dataPos[0]}:</span><br><br>Metrics:<br> # of starting cells: <b>${dataPos[1]}</b> <br> # of Pickups: <b>${dataPos[2]}</b> <br> # of Delivers to Level 1: <b>${dataPos[3]}</b> <br> # of Delivers to Level 2: <b>${dataPos[4]}</b> <br> # of Delivers to Level 3: <b>${dataPos[5]}</b> <br> avg percent of climbs: <b>${dataPos[6]}%</b><br> avg percent of stage 2 (3-5): <b>${dataPos[10]}%</b><br> avg percent of landing on correct color: <b>${dataPos[11]}%</b> <br><br> Defense: <br> # of Pins<b> ${dataPos[7]}</b> <br> # of Pushes<b> ${dataPos[8]}</b> <br> # of Disables <b>${dataPos[9]}</b><br><br>This team received a score of <b>${countTeam1}</b> out of <b>${10 - discountedScore}</b>`;
                             document.getElementById('compare2').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: <b>${newData}</b> <br> # of Pickups: <b>${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}% </b><br><br> Defense: <br> # of Pins <b>${pins}</b> <br> # of Pushes<b> ${push} <br> # of Disables<b> ${disabled}</b><br><br>This team received a score of<b> ${countTeam2}</b> out of <b>${10 - discountedScore}</b>`;
                             document.getElementById('compare3').innerHTML = `Scoring:<br><br>Between these two teams ${discountedScore} points were removed when scoring due to duplicate values<br><br>Team ${dataPos[0]} scored a ${countTeam1} VS Team ${teamNumbers[i]} who scored a ${countTeam2} out of ${10 - discountedScore}`;
+                        } else if (countTeam1 == countTeam2) {
+                            document.getElementById('rankingData').innerHTML = `<span style="color: green">Average Stats for Team ${dataPos[0]}:</span><br><br>Metrics:<br> # of starting cells: <b>${dataPos[1]}</b> <br> # of Pickups: <b>${dataPos[2]}</b> <br> # of Delivers to Level 1: <b>${dataPos[3]}</b> <br> # of Delivers to Level 2: <b>${dataPos[4]}</b> <br> # of Delivers to Level 3: <b>${dataPos[5]}</b> <br> avg percent of climbs: <b>${dataPos[6]}%</b><br> avg percent of stage 2 (3-5): <b>${dataPos[10]}%</b><br> avg percent of landing on correct color: <b>${dataPos[11]}%</b> <br><br> Defense: <br> # of Pins<b> ${dataPos[7]}</b> <br> # of Pushes<b> ${dataPos[8]}</b> <br> # of Disables <b>${dataPos[9]}</b><br><br>This team received a score of <b>${countTeam1}</b> out of <b>${10 - discountedScore}</b>`;
+                            document.getElementById('compare2').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: <b>${newData}</b> <br> # of Pickups: <b>${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}% </b><br><br> Defense: <br> # of Pins <b>${pins}</b> <br> # of Pushes<b> ${push} <br> # of Disables<b> ${disabled}</b><br><br>This team received a score of<b> ${countTeam2}</b> out of <b>${10 - discountedScore}</b>`;
+                            document.getElementById('compare3').innerHTML = `Scoring:<br><br>Between these two teams ${discountedScore} points were removed when scoring due to duplicate values<br><br>Team ${dataPos[0]} scored a ${countTeam1} VS Team ${teamNumbers[i]} who scored a ${countTeam2} out of ${10 - discountedScore}`;
                         } else {
                             document.getElementById('rankingData').innerHTML = `<span style="color: red">Average Stats for Team ${dataPos[0]}:</span><br><br>Metrics:<br> # of starting cells: <b>${dataPos[1]}</b> <br> # of Pickups: <b>${dataPos[2]}</b> <br> # of Delivers to Level 1: <b>${dataPos[3]}</b> <br> # of Delivers to Level 2: <b>${dataPos[4]}</b> <br> # of Delivers to Level 3: <b>${dataPos[5]}</b> <br> avg percent of climbs: <b>${dataPos[6]}%</b><br> avg percent of stage 2 (3-5): <b>${dataPos[10]}%</b><br> avg percent of landing on correct color:<b> ${dataPos[11]}%</b> <br><br> Defense: <br> # of Pins <b>${dataPos[7]}</b> <br> # of Pushes<b> ${dataPos[8]}</b> <br> # of Disables <b>${dataPos[9]}</b><br><br>This team received a score of <b>${countTeam1}</b> out of <b>${10 - discountedScore}</b>`;
                             document.getElementById('compare2').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells: <b>${newData} <br> # of Pickups: <b>${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color:<b> ${stage3}% </b><br><br> Defense: <br> # of Pins <b>${pins}</b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${10 - discountedScore}</b>`;
@@ -790,7 +816,7 @@ function baseLine() {
             climb = (climb / length) * 100;
             stage2 = (stage2 / length) * 100;
             stage3 = (stage3 / length) * 100;
-            document.getElementById('rankingData').innerHTML = `<span style="font-size: 24px;">Average Pick Ups: <span style="color: yellow;">${pikCellsParse}</span><br>Average Delivers to Level 1: <span style="color: yellow;">${delCells1Parse}</span><br>Average Delivers to Level 2: <span style="color: yellow;">${delCells2Parse}</span><br>Average Delivers to Level 3: <span style="color: yellow;">${delCells3Parse}</span><br>Average Stage 2 Spin (3-5): <span style="color: yellow;">${stage2}%</span><br>Average Lands on Correct Color: <span style="color: yellow">${stage3}%</span><br>Average Climb: <span style="color: yellow;">${climb}%</span><br>Average Pins: <span style="color: rgb(3, 223, 252);">${pinsParse}</span><br>Average Push: <span style="color: rgb(3, 223, 252);">${pushParse}</span><br>Average Disables: <span style="color: rgb(3, 223, 252);">${disabledParse}</span></span>`;
+            document.getElementById('rankingData').innerHTML = `<span style="font-size: 24px;">Average Pick Ups: <span style="color: yellow;">${Math.ceil(pikCellsParse * 1000) / 1000}</span><br>Average Delivers to Level 1: <span style="color: yellow;">${Math.ceil(delCells1Parse * 1000) / 1000}</span><br>Average Delivers to Level 2: <span style="color: yellow;">${Math.ceil(delCells2Parse * 1000) / 1000}</span><br>Average Delivers to Level 3: <span style="color: yellow;">${Math.ceil(delCells3Parse * 1000) / 1000}</span><br>Average Stage 2 Spin (3-5): <span style="color: yellow;">${Math.ceil(stage2 * 1000) / 1000}%</span><br>Average Lands on Correct Color: <span style="color: yellow">${Math.ceil(stage3 * 1000) / 1000}%</span><br>Average Climb: <span style="color: yellow;">${Math.ceil(climb * 1000) / 1000}%</span><br>Average Pins: <span style="color: rgb(3, 223, 252);">${Math.ceil(pinsParse * 1000) / 1000}</span><br>Average Push: <span style="color: rgb(3, 223, 252);">${Math.ceil(pushParse * 1000) / 1000}</span><br>Average Disables: <span style="color: rgb(3, 223, 252);">${Math.ceil(disabledParse * 1000) / 1000}</span></span>`;
             document.getElementById('loading2').style.display = "none";
         }, 900);
     })
