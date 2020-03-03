@@ -170,6 +170,7 @@ function getForData() {
 
 function getRanks() {
     document.getElementById('rankingData').innerHTML = 'Loading Results...';
+    document.getElementById('loading2').style.display = "block";
     document.getElementById('compare2').innerHTML = "";
     document.getElementById('compare3').innerHTML = "";
     MongoClient.connect(mongoUrl, function(err, db) {
@@ -318,6 +319,7 @@ function getRanks() {
                 }
                 document.getElementById('rankingData').innerHTML = data;
                 document.getElementById('compare2').innerHTML = '**Format is team number and then score compared to the BASE line**<br><br>Key:<br><span style="color: green;">Green</span> equals a perfect score<br><span style="color: yellow;">Yellow</span> equals a mostly perfect score (1 - 2 points from a perfect score)<br><span style="color: rgb(255, 255, 151);">Light Yellow</span> Average (3 - 4 points off score)<br><span style="color: red;">Red</span> Less than average (below 4 points off)';
+                document.getElementById('loading2').style.display = "none";
             }, 1600);
         }, 1000);
     })
