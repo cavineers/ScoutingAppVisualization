@@ -136,8 +136,11 @@ function getForData() {
                             countTeam2++;
                         }
                         if (climbParse > climb && climbParse != climb) {
-                            countTeam1++;
+                            countTeam1 += 2;
                         } else if (climbParse != climb) {
+                            countTeam2 += 2;
+                        } else if (climbParse == climb) {
+                            countTeam1++;
                             countTeam2++;
                         }
                         if (stage2Parse > stage2 && stage2Parse != stage2) {
@@ -151,17 +154,30 @@ function getForData() {
                             countTeam2++;
                         }
                         let discountedScore = 0;
-                        discountedScore = 10 - (countTeam1 + countTeam2);
+                        discountedScore = 11 - (countTeam1 + countTeam2);
                         if (countTeam1 > countTeam2) {
-                            document.getElementById('sortedDocs').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells:<b> ${newData}</b><br> # of Pickups:<b> ${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}%</b> <br><br> Defense: <br> # of Pins <b>${pins} </b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${10 - discountedScore}</b> compared to the base line data`;
+                            document.getElementById('sortedDocs').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells:<b> ${newData}</b><br> # of Pickups:<b> ${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}%</b> <br><br> Defense: <br> # of Pins <b>${pins} </b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${11 - discountedScore}</b> compared to the base line data<br>***CLIMB IS WORTH 2x POINTS (2 points) DUE TO ITS IMPORTANCE*** (without discounted points there is a total of 11)`;
                         } else {
-                            document.getElementById('sortedDocs').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells:<b> ${newData}</b> <br> # of Pickups:<b> ${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}%</b> <br><br> Defense: <br> # of Pins <b>${pins}</b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${10 - discountedScore}</b> compared to the base line data`;
+                            document.getElementById('sortedDocs').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells:<b> ${newData}</b> <br> # of Pickups:<b> ${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}%</b> <br><br> Defense: <br> # of Pins <b>${pins}</b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${11 - discountedScore}</b> compared to the base line data<br>***CLIMB IS WORTH 2x POINTS (2 points) DUE TO ITS IMPORTANCE*** (without discounted points there is a total of 11)`;
                         }
                         //document.getElementById('sortedDocs').innerHTML = ` Average Stats for Team ${teamNumbers[i]}: <br><br>Metrics:<br> # of starting cells: ${newData} <br> # of Pickups: ${pikCells} <br> # of Delivers to Level 1: ${delCells1} <br> # of Delivers to Level 2: ${delCells2} <br> # of Delivers to Level 3: ${delCells3} <br> avg percent of climbs: ${climb}%<br> avg percent of stage 2 (3-5): ${stage2}%<br> avg percent of landing on correct color: ${stage3}% <br><br> Defense: <br> # of Pins ${pins} <br> # of Pushes ${push} <br> # of Disables ${disabled}`;
                         document.getElementById('loading').style.display = "none";
                     }, 1500);
                 } else {
-                    document.getElementById('sortedDocs').innerHTML = 'Running Scan...';
+                    const msg = parseInt(Math.random() * 6 + 1);
+                    if (msg == 1) {
+                        document.getElementById('sortedDocs').innerHTML = 'Stuck In Loop HELP...';
+                    } else if (msg == 2) {
+                        document.getElementById('sortedDocs').innerHTML = 'Good Things Are Worth Waiting For!';
+                    } else if (msg == 3) {
+                        document.getElementById('sortedDocs').innerHTML = 'I noticed your having a bad hair day!';
+                    } else if (msg == 4) {
+                        document.getElementById('sortedDocs').innerHTML = 'Working hard to get your data perfect!';
+                    } else if (msg == 6) {
+                        document.getElementById('sortedDocs').innerHTML = 'Please Wash your hands I am afraid of getting a virus!';
+                    } else {
+                        document.getElementById('sortedDocs').innerHTML = 'Parsing.................';
+                    }
                 }
             }
         }, 1000)
@@ -169,17 +185,19 @@ function getForData() {
 }
 
 function getRanks() {
-    const msg = parseInt(Math.random() * 5 + 1);
+    const msg = parseInt(Math.random() * 6 + 1);
     if (msg == 1) {
         document.getElementById('rankingData').innerHTML = 'Stuck In Loop HELP...';
     } else if (msg == 2) {
         document.getElementById('rankingData').innerHTML = 'Good Things Are Worth Waiting For!';
     } else if (msg == 3) {
-        document.getElementById('rankingData').innerHTML = 'Loading...Loading...Keep Waiting...Loading...';
+        document.getElementById('rankingData').innerHTML = 'I noticed your having a bad hair day!';
     } else if (msg == 4) {
         document.getElementById('rankingData').innerHTML = 'Working hard to get your data perfect!';
+    } else if (msg == 6) {
+        document.getElementById('rankingData').innerHTML = 'Please Wash your hands I am afraid of getting a virus!';
     } else {
-        document.getElementById('rankingData').innerHTML = 'Just keep waiting ... Just keep waiting';
+        document.getElementById('rankingData').innerHTML = 'Parsing.................';
     }
     document.getElementById('loading2').style.display = "block";
     document.getElementById('compare2').innerHTML = "";
@@ -296,8 +314,11 @@ function getRanks() {
                         countTeam2++;
                     }
                     if (climbParse > climb && climbParse != climb) {
-                        countTeam1++;
+                        countTeam1 += 2;
                     } else if (climbParse != climb) {
+                        countTeam2 += 2;
+                    } else if (climbParse == climb) {
+                        countTeam1++;
                         countTeam2++;
                     }
                     if (stage2Parse > stage2 && stage2Parse != stage2) {
@@ -310,7 +331,7 @@ function getRanks() {
                     } else if (stage3Parse != stage3) {
                         countTeam2++;
                     }
-                    discountedScore = 10 - (countTeam1 + countTeam2);
+                    discountedScore = 11 - (countTeam1 + countTeam2);
                     score.push({ "TeamNumber": teamNums[i], "score": countTeam2 })
                 }, 1500);
             }
@@ -318,18 +339,18 @@ function getRanks() {
                 score.sort(function(a, b) { return b.score - a.score; });
                 data = '';
                 for (let i = 0; i < score.length; i++) {
-                    if (score[i].score >= 10 - discountedScore) {
-                        data += `<br><span style="color: green; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
+                    if (score[i].score >= 11 - discountedScore) {
+                        data += `<br><span style="color: green; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${11 - discountedScore}</span>`;
                     } else if (score[i].score >= 8 - discountedScore) {
-                        data += `<br><span style="color: yellow; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
+                        data += `<br><span style="color: yellow; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${11 - discountedScore}</span>`;
                     } else if (score[i].score >= 6 - discountedScore) {
-                        data += `<br><span style="color: rgb(255, 255, 151); font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
+                        data += `<br><span style="color: rgb(255, 255, 151); font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${11 - discountedScore}</span>`;
                     } else {
-                        data += `<br><span style="color: red; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${10 - discountedScore}</span>`;
+                        data += `<br><span style="color: red; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${11 - discountedScore}</span>`;
                     }
                 }
                 document.getElementById('rankingData').innerHTML = data;
-                document.getElementById('compare2').innerHTML = '**Format is team number and then score compared to the BASE line**<br><br>Key:<br><span style="color: green;">Green</span> equals a perfect score<br><span style="color: yellow;">Yellow</span> equals a mostly perfect score (1 - 2 points from a perfect score)<br><span style="color: rgb(255, 255, 151);">Light Yellow</span> Average (3 - 4 points off score)<br><span style="color: red;">Red</span> Less than average (below 4 points off)';
+                document.getElementById('compare2').innerHTML = '**Format is team number and then score compared to the BASE line**<br><br>Key:<br><span style="color: green;">Green</span> equals a perfect score<br><span style="color: yellow;">Yellow</span> equals a mostly perfect score (1 - 2 points from a perfect score)<br><span style="color: rgb(255, 255, 151);">Light Yellow</span> Average (3 - 4 points off score)<br><span style="color: red;">Red</span> Less than average (below 4 points off)<br><br>***CLIMB IS WORTH 2x POINTS (2 points) DUE TO ITS IMPORTANCE*** (without discounted points there is a total of 11)';
                 document.getElementById('loading2').style.display = "none";
             }, 1600);
         }, 1000);
@@ -490,17 +511,19 @@ function viewAllComments() {
 }
 
 function getTeamNums() {
-    const msg = parseInt(Math.random() * 5 + 1);
+    const msg = parseInt(Math.random() * 6 + 1);
     if (msg == 1) {
         document.getElementById('rankingData').innerHTML = 'Stuck In Loop HELP...';
     } else if (msg == 2) {
         document.getElementById('rankingData').innerHTML = 'Good Things Are Worth Waiting For!';
     } else if (msg == 3) {
-        document.getElementById('rankingData').innerHTML = 'Loading...Loading...Keep Waiting...Loading...';
+        document.getElementById('rankingData').innerHTML = 'I noticed your having a bad hair day!';
     } else if (msg == 4) {
         document.getElementById('rankingData').innerHTML = 'Working hard to get your data perfect!';
+    } else if (msg == 6) {
+        document.getElementById('rankingData').innerHTML = 'Please Wash your hands I am afraid of getting a virus';
     } else {
-        document.getElementById('rankingData').innerHTML = 'Just keep waiting ... Just keep waiting';
+        document.getElementById('rankingData').innerHTML = 'Parsing..............';
     }
     document.getElementById('compare2').innerHTML = "";
     document.getElementById('compare3').innerHTML = "";
