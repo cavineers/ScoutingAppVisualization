@@ -8,7 +8,21 @@ const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
 //MongoDB Collection Name
-const collectionName = "Week_1";
+let collectionName = "Week_1";
+document.getElementById('currKey').innerHTML = "Current Key: " + collectionName;
+
+function changeKey() {
+    let collectionDropDown = document.getElementById('keyEven').value;
+
+    if (collectionDropDown == "Week_0") {
+        collectionName = "Week_0";
+    } else if (collectionDropDown == "Week_1") {
+        collectionName = "Week_1";
+    } else if (collectionDropDown == "scouting-app") {
+        collectionName = "scouting-app";
+    }
+    document.getElementById('currKey').innerHTML = "Current Key: " + collectionName;
+}
 
 document.getElementById("item").addEventListener("keyup", function(event) {
     event.preventDefault();
@@ -67,6 +81,7 @@ function getForData() {
                         let disabled = 0;
                         let stage2 = 0;
                         let stage3 = 0;
+                        let numMatch = 0;
                         let newData = 0; //newData = number of starting cells
                         for (let x = 0; x < visability.length; x++) {
                             pikCells = pikCells + visability[x].numberOfPickups;
@@ -86,6 +101,7 @@ function getForData() {
                             if (visability[x].stage3_control.match(/LandedOnColor/g)) {
                                 stage3 = stage3 + visability[x].stage3_control.match(/LandedOnColor/g).length || [];
                             }
+                            numMatch++;
                         }
                         pikCells = pikCells / visability.length
                         delCells1 = delCells1 / visability.length;
@@ -156,7 +172,7 @@ function getForData() {
                         let discountedScore = 0;
                         discountedScore = 11 - (countTeam1 + countTeam2);
                         if (countTeam1 > countTeam2) {
-                            document.getElementById('sortedDocs').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells:<b> ${newData}</b><br> # of Pickups:<b> ${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}%</b> <br><br> Defense: <br> # of Pins <b>${pins} </b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${11 - discountedScore}</b> compared to the base line data<br>***CLIMB IS WORTH 2x POINTS (2 points) DUE TO ITS IMPORTANCE*** (without discounted points there is a total of 11)`;
+                            document.getElementById('sortedDocs').innerHTML = `<span style="color: red">Average Stats for Team ${teamNumbers[i]}:</span> (played in ${numMatch} match(es))<br><br>Metrics:<br> # of starting cells:<b> ${newData}</b><br> # of Pickups:<b> ${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}%</b> <br><br> Defense: <br> # of Pins <b>${pins} </b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${11 - discountedScore}</b> compared to the base line data<br>***CLIMB IS WORTH 2x POINTS (2 points) DUE TO ITS IMPORTANCE*** (without discounted points there is a total of 11)`;
                         } else {
                             document.getElementById('sortedDocs').innerHTML = `<span style="color: green">Average Stats for Team ${teamNumbers[i]}:</span><br><br>Metrics:<br> # of starting cells:<b> ${newData}</b> <br> # of Pickups:<b> ${pikCells}</b> <br> # of Delivers to Level 1: <b>${delCells1}</b> <br> # of Delivers to Level 2: <b>${delCells2}</b> <br> # of Delivers to Level 3: <b>${delCells3}</b> <br> avg percent of climbs: <b>${climb}%</b><br> avg percent of stage 2 (3-5): <b>${stage2}%</b><br> avg percent of landing on correct color: <b>${stage3}%</b> <br><br> Defense: <br> # of Pins <b>${pins}</b> <br> # of Pushes <b>${push}</b> <br> # of Disables <b>${disabled}</b><br><br>This team received a score of <b>${countTeam2}</b> out of <b>${11 - discountedScore}</b> compared to the base line data<br>***CLIMB IS WORTH 2x POINTS (2 points) DUE TO ITS IMPORTANCE*** (without discounted points there is a total of 11)`;
                         }

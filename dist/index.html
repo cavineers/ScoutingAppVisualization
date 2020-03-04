@@ -12,7 +12,15 @@
 <body>
     <div class="colorBar"></div>
     <br>
-    <!-- <p onclick="window.location.replace('login.html')" style="color: #13aa52; font-size: 20px; height: 18px; text-align: right; margin-right: 30px; cursor: pointer;"><strong>Sign In</strong><span><svg height="16px" viewBox="0 0 14 14" style="transition: all 200ms ease 0s; transform: translate(0px, 0px) scale(1);"><g stroke="none" strokewidth="1" fill="none" fillrule="evenodd" strokelinecap="round" strokelinejoin="round"><g transform="translate(-1230, -29)" stroke="#13AA52"><g transform="translate(1231, 30)"><path d="M11.3,3.75 C10.22,1.23 7.53,-0.18 4.85,0.37 C2.18,0.91 0.25,3.27 0.25,6 C0.25,8.73 2.18,11.09 4.85,11.63 C7.53,12.18 10.22,10.77 11.29,8.25"></path><polyline points="5.75 4 3.75 6 5.75 8"></polyline><path d="M3.75,6 L11.75,6"></path></g></g></g></svg></span></p> -->
+    <select id="keyEven" style="color: #13aa52; font-size: 20px; height: 32px; text-align: right; margin-right: 30px; cursor: pointer; border: 2px solid black;">
+        <option value="" data-placeholder="true">Select Different Event Key</option>
+        <option value="scouting-app">Test Event</option>
+        <option value="Week_0">Week 0</option>
+        <option value="Week_1">Week 1</option>
+    </select>
+    <br>
+    <p id="currKey"></p>
+    <button class="forBtn" onclick="changeKey()">Change Key</button>
     <br>
     <h2 class="head">Scouting App Database GUI</h2>
     <p class="para">Hello Developer, Welcome to the 4541 Scouting Database GUI. <br> The database visualization UI for modern applications.</p>
