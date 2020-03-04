@@ -633,10 +633,10 @@ function allianceCompare() {
                                 stage3 = stage3 + visability[x].stage3_control.match(/LandedOnColor/g).length || [];
                             }
                         }
-                        pikCells = pikCells / visability.length
-                        delCells1 = delCells1 / visability.length + newData;
-                        delCells2 = delCells2 / visability.length + newData;
-                        delCells3 = delCells3 / visability.length + newData;
+                        pikCells = pikCells / visability.length + newData;
+                        delCells1 = delCells1 / visability.length;
+                        delCells2 = delCells2 / visability.length;
+                        delCells3 = delCells3 / visability.length;
                         newData = newData / visability.length;
                         pins = pins / visability.length;
                         push = push / visability.length;
@@ -707,10 +707,10 @@ function allianceCompare() {
                                 stage3 = stage3 + visability[x].stage3_control.match(/LandedOnColor/g).length || [];
                             }
                         }
-                        pikCells = pikCells / visability.length
-                        delCells1 = delCells1 / visability.length + newData;
-                        delCells2 = delCells2 / visability.length + newData;
-                        delCells3 = delCells3 / visability.length + newData;
+                        pikCells = pikCells / visability.length + newData
+                        delCells1 = delCells1 / visability.length;
+                        delCells2 = delCells2 / visability.length;
+                        delCells3 = delCells3 / visability.length;
                         newData = newData / visability.length;
                         pins = pins / visability.length;
                         push = push / visability.length;
