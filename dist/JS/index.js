@@ -368,7 +368,7 @@ function getRanks() {
                 score.sort(function(a, b) { return b.score - a.score; });
                 data = '';
                 for (let i = 0; i < score.length; i++) {
-                    if (score[i].score >= 11 - discountedScore) {
+                    if (score[i].score >= 10 - discountedScore) {
                         data += `<br><span style="color: green; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${11 - discountedScore}</span>`;
                     } else if (score[i].score >= 8 - discountedScore) {
                         data += `<br><span style="color: yellow; font-size: 28px">${score[i].TeamNumber}: ${score[i].score} out of ${11 - discountedScore}</span>`;
