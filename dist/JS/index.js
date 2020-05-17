@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const { ipcMain } = require('electron');
 
 //MongoDB Collection Name
-let collectionName = "OwingsMills";
+let collectionName = "scouting-app";
 document.getElementById('currKey').innerHTML = "Current Key: " + collectionName;
 
 function changeKey() {
@@ -20,11 +20,8 @@ function changeKey() {
         collectionName = "Week_1";
     } else if (collectionDropDown == "scouting-app") {
         collectionName = "scouting-app";
-    } else if (collectionDropDown == "Week_2") {
-        collectionName = "Week_2";
-    } else if (collectionDropDown == "OwingsMills") {
-        collectionName = "OwingsMills";
     }
+
     document.getElementById('currKey').innerHTML = "Current Key: " + collectionName;
 }
 
